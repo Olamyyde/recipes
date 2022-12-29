@@ -19,11 +19,7 @@ public class RecipeController {
 
     @PostMapping("/new")
     public ResponseEntity<Map<String, Long>> addRecipe(@RequestBody Recipe recipe){
-        // Add the recipe to the database
-//        Recipe newRecipe = recipeService.addRecipe(recipe);
-//
         Map<String, Long> response = recipeService.addRecipe(recipe);
-//        response.put("id", newRecipe.getId());
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -31,11 +27,13 @@ public class RecipeController {
     @GetMapping("/{id}")
     public ResponseEntity<Recipe> getRecipe(@PathVariable Long id){
         Recipe recipeById = recipeService.getRecipeById(id);
-//        if (recipeById == null)
-//            return new ResponseEntity<>(recipeById, HttpStatus.NOT_FOUND);
-//        else
-            return new ResponseEntity<>(recipeById, HttpStatus.OK);
+
+        return new ResponseEntity<>(recipeById, HttpStatus.OK);
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity deleteRecipe(@PathVariable Long id){
+        return recipeService.deleteRecipe(id);
+    }
 
 }
