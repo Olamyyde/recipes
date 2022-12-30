@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Optional;
@@ -41,4 +42,14 @@ public class RecipeService {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
+    public ResponseEntity updateRecipe(Long id, Recipe recipe) {
+        Optional<Recipe> optionalRecipe = recipeRepo.findById(id);
+        if (!optionalRecipe.isPresent()){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+        recipe.setId(id);
+        recipeRepo.save(recipe);
+
+        return new ResponseEntity<>(optionalRecipe, HttpStatus.NO_CONTENT);
+    }
 }
