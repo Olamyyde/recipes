@@ -2,6 +2,7 @@ package com.example.recipes.controller;
 
 import com.example.recipes.model.Recipe;
 import com.example.recipes.service.RecipeService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +19,7 @@ public class RecipeController {
     }
 
     @PostMapping("/new")
-    public ResponseEntity<Map<String, Long>> addRecipe(@RequestBody Recipe recipe){
+    public ResponseEntity<Map<String, Long>> addRecipe(@RequestBody @Valid Recipe recipe){
         Map<String, Long> response = recipeService.addRecipe(recipe);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
@@ -34,6 +35,11 @@ public class RecipeController {
     @DeleteMapping("/{id}")
     public ResponseEntity deleteRecipe(@PathVariable Long id){
         return recipeService.deleteRecipe(id);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity updateRecipe(@PathVariable Long id, @RequestBody @Valid Recipe recipe){
+        return recipeService.updateRecipe(id, recipe);
     }
 
 }
