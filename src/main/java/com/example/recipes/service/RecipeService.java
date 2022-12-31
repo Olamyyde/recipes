@@ -7,8 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.time.LocalDateTime;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -52,4 +52,20 @@ public class RecipeService {
 
         return new ResponseEntity<>(optionalRecipe, HttpStatus.NO_CONTENT);
     }
+
+     public List<Recipe> searchRecipes(String name, String category) {
+       if (category != null && name != null )
+           throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+       else {
+           List<Recipe> foundRecipes = null;
+           if (category != null) {
+               foundRecipes = recipeRepo.findByCategoryIgnoreCaseOrderByDateDesc(category);
+           }
+           else if (name != null) {
+               foundRecipes = recipeRepo.findByNameIgnoreCaseOrderByDateDesc(name);
+           }
+           return foundRecipes;
+       }
+    }
+
 }
