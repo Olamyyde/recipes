@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -40,6 +41,12 @@ public class RecipeController {
     @PutMapping("/{id}")
     public ResponseEntity updateRecipe(@PathVariable Long id, @RequestBody @Valid Recipe recipe){
         return recipeService.updateRecipe(id, recipe);
+    }
+
+    @GetMapping("/search")
+    public List<Recipe> searchRecipes(@RequestParam(required = false) String name,
+                                      @RequestParam(required = false) String category){
+        return recipeService.searchRecipes(name, category);
     }
 
 }
